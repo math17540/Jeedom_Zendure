@@ -602,7 +602,26 @@ class zendure extends eqLogic {
         }
     }
 
+    /**
+     * Installation par fichier .zip : Jeedom met la date dans le champ « Version » de la page plugin ; on y met le
+     * numéro de version. Rien n'est changé pour les autres sources (GitHub, Market), qui s'en servent pour les mises à jour.
+     */
+    public static function syncUpdateVersion() {
+        $version = self::pluginVersion();
+        $update = update::byLogicalId(__CLASS__);
+        if ($version == '' || !is_object($update) || $update->getSource() != 'file' || $update->getLocalVersion() == $version) {
+            return;
+        }
+        $update->setLocalVersion($version);
+        $update->save();
+    }
+
     public static function cron() {
+        try {
+            self::syncUpdateVersion();
+        } catch (Exception $e) {
+            log::add(__CLASS__, 'debug', 'version : ' . $e->getMessage());
+        }
         $offlineAfter = (int) config::byKey('offline_after', __CLASS__, 180);
         $daemon = self::deamon_info()['state'] == 'ok'; // démon actif : il fait les lectures
         // appareils connus sans équipement : on les relance pour qu'ils republient (recréation automatique)
