@@ -1,0 +1,7 @@
+resources/ble/venv/
+dist/
+*.zip
+__pycache__/
+*.pyc
+.vscode/
+.idea/

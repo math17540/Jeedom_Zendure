@@ -1,0 +1,19 @@
+{
+    "id": "zendure",
+    "name": "Zendure",
+    "description": {
+        "fr_FR": "Pilotage local des appareils Zendure sans cloud : Hyper 2000, SolarFlow Hub, AIO et ACE en MQTT local, SolarFlow 800 à 4000 par l'API zenSDK, compteurs Zendure et Shelly. Outil de redirection Bluetooth fourni."
+    },
+    "licence": "AGPL",
+    "author": "math17540",
+    "pluginVersion": "1.0.0",
+    "documentation": "/plugins/zendure/core/php/doc.php?lang=#language#&page=index",
+    "changelog": "/plugins/zendure/core/php/doc.php?lang=#language#&page=changelog",
+    "require": "4.4",
+    "category": "energy",
+    "hasDependency": false,
+    "hasOwnDeamon": true,
+    "maxDependancyInstallTime": 10,
+    "language": ["fr_FR"],
+    "compatibility": ["rpi", "docker", "diy", "v4", "atlas", "smart"]
+}
