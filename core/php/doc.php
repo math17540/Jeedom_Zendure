@@ -12,6 +12,21 @@ if (!isConnect()) {
 
 $plugin = basename(dirname(__DIR__, 2));
 $docs = __DIR__ . '/../../docs';
+
+// images de la documentation (docs/images), servies ici : le .htaccess de Jeedom interdit /docs/ au navigateur
+if (isset($_GET['img'])) {
+    $name = basename((string) $_GET['img']);
+    $file = $docs . '/images/' . $name;
+    if (!preg_match('/^[A-Za-z0-9_.-]+\.(png|jpg|jpeg|gif|webp)$/i', $name) || !is_file($file)) {
+        http_response_code(404);
+        exit;
+    }
+    $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+    header('Content-Type: image/' . ($ext == 'jpg' ? 'jpeg' : $ext));
+    header('Cache-Control: max-age=86400');
+    readfile($file);
+    exit;
+}
 $page = in_array(@$_GET['page'], array('index', 'changelog')) ? $_GET['page'] : 'index';
 $lang = preg_match('/^[a-z]{2}_[A-Z]{2}$/', (string) @$_GET['lang']) ? $_GET['lang'] : 'fr_FR';
 $file = $docs . '/' . $lang . '/' . $page . '.md';
@@ -33,6 +48,11 @@ function docInline($t) {
     }, $t);
     $t = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $t);
     $t = preg_replace('/(?<![\w*])\*(?!\s)(.+?)(?<!\s)\*(?![\w*])/', '<em>$1</em>', $t);
+    // images : ![légende](images/fichier.png) -> servie par cette page
+    $t = preg_replace_callback('/!\[([^\]]*)\]\(images\/([A-Za-z0-9_.-]+)\)/', function ($m) {
+        return '<figure><a href="doc.php?img=' . $m[2] . '" target="_blank"><img src="doc.php?img=' . $m[2] . '" alt="' . $m[1] . '" loading="lazy"></a>'
+            . ($m[1] !== '' ? '<figcaption>' . $m[1] . '</figcaption>' : '') . '</figure>';
+    }, $t);
     $t = preg_replace('/\[([^\]]+)\]\(([^)\s]+)\)/', '<a href="$2">$1</a>', $t);
     return preg_replace_callback("/\x01(\d+)\x01/", function ($m) use ($codes) {
         return $codes[(int) $m[1]];
@@ -180,6 +200,9 @@ pre code { padding: 0; }
 table { border-collapse: collapse; width: 100%; margin: 10px 0 16px; font-size: 14px; display: block; overflow-x: auto; }
 th, td { border: 1px solid var(--line); padding: 6px 10px; text-align: left; vertical-align: top; }
 th { background: var(--code); }
+figure { margin: 12px 0 18px; }
+figure img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+figcaption { font-size: 13px; color: var(--muted); margin-top: 4px; }
 blockquote { margin: 10px 0; padding: 8px 14px; border-left: 3px solid var(--accent); background: var(--code); border-radius: 0 6px 6px 0; }
 @media (max-width: 800px) { .wrap { grid-template-columns: 1fr; } aside { display: none; } main { padding: 4px 16px 20px; } }
 </style>

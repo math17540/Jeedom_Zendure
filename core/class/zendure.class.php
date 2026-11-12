@@ -609,10 +609,17 @@ class zendure extends eqLogic {
     public static function syncUpdateVersion() {
         $version = self::pluginVersion();
         $update = update::byLogicalId(__CLASS__);
-        if ($version == '' || !is_object($update) || $update->getSource() != 'file' || $update->getLocalVersion() == $version) {
+        if ($version == '' || !is_object($update) || $update->getSource() != 'file') {
+            return;
+        }
+        $title = in_array($update->getConfiguration('version'), array('stable', 'beta')); // titre de la page plugin
+        if ($update->getLocalVersion() == $version && $title) {
             return;
         }
         $update->setLocalVersion($version);
+        if (!$title) {
+            $update->setConfiguration('version', 'stable');
+        }
         $update->save();
     }
 

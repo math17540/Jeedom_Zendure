@@ -11,4 +11,6 @@ Première version publique.
 - Broker : ajout des comptes dans MQTT Manager, port 8883 (TLS) sans certificat client.
 - Redirection Bluetooth : outil Windows fourni (`ZendureMqttTool.exe`) et Bluetooth de la box Jeedom.
 - Démon : lecture rapide, reconnexion forcée des sessions MQTT figées.
-- Page Santé de Jeedom, documentation locale.
+- Page Santé de Jeedom.
+- Documentation pas à pas pour débutants, avec captures d'écran, consultable depuis Jeedom.
+- Outil Windows 0.6.0 : tous les modèles MQTT, test des ports 1883 et 8883, affichage du deviceId à autoriser, ouverture directe sur l'onglet « MQTT local ».

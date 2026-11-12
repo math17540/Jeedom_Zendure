@@ -14,9 +14,10 @@ if (!isConnect()) {
     die();
 }
 ?>
+<div class="alert alert-info" style="margin:0 15px 10px 15px;">{{Version du plugin}} : <strong><?php echo zendure::pluginVersion(); ?></strong>
+    · <a href="plugins/zendure/core/php/doc.php?page=index" target="_blank"><i class="fas fa-book"></i> {{Documentation}}</a></div>
 <form class="form-horizontal">
     <fieldset>
-        <div class="alert alert-info" style="margin-bottom:10px;">{{Version du plugin}} : <strong><?php echo zendure::pluginVersion(); ?></strong></div>
         <?php if (!class_exists('mqtt2')) { ?>
             <div class="alert alert-warning">{{MQTT Manager (mqtt2) n'est pas installé : il est nécessaire pour les Hyper 2000, Hub, AIO et ACE (MQTT local). Les SolarFlow zenSDK et les compteurs fonctionnent sans.}}</div>
         <?php } ?>
@@ -72,7 +73,7 @@ if (!isConnect()) {
         <div class="alert alert-info">
             {{Les Hyper 2000, Hub 1200 / 2000, AIO 2400 et ACE 1500 doivent être redirigés une fois vers le broker de la box, par Bluetooth. Deux possibilités :}}
             <ul style="margin:6px 0 0 0;">
-                <li>{{depuis un PC Windows avec Bluetooth}} : <a href="plugins/zendure/core/php/tool.php"><i class="fas fa-download"></i> {{télécharger l'outil Windows}}</a> ({{aucune installation, fermez l'application Zendure sur le téléphone}}) ;</li>
+                <li>{{depuis un PC Windows avec Bluetooth}} : <a href="plugins/zendure/core/php/tool.php" download="ZendureMqttTool.exe" target="_blank" rel="noopener"><i class="fas fa-download"></i> {{télécharger l'outil Windows}}</a> ({{aucune installation, fermez l'application Zendure sur le téléphone}}) ;</li>
                 <li>{{depuis la box Jeedom, si elle a un adaptateur Bluetooth à portée de l'appareil}} : {{ci-dessous}}.</li>
             </ul>
         </div>
