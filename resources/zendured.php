@@ -64,4 +64,7 @@ while ($running) {
     sleep(1);
 }
 log::add('zendure', 'info', 'Démon arrêté');
-@unlink($pidFile);
+// n'efface le fichier que s'il est encore le nôtre (un nouveau démon a pu démarrer entre-temps)
+if ((int) @file_get_contents($pidFile) == getmypid()) {
+    @unlink($pidFile);
+}

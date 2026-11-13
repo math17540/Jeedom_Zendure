@@ -739,10 +739,7 @@ class zendure extends eqLogic {
 
     public static function deamon_stop() {
         $pidFile = self::pidFile();
-        if (!file_exists($pidFile)) {
-            return;
-        }
-        $pid = (int) trim((string) file_get_contents($pidFile));
+        $pid = file_exists($pidFile) ? (int) trim((string) file_get_contents($pidFile)) : 0;
         // sudo : Jeedom peut avoir lancé le démon en root (cron système)
         if ($pid > 0) {
             exec(system::getCmdSudo() . 'kill ' . $pid . ' 2>/dev/null');
@@ -756,6 +753,11 @@ class zendure extends eqLogic {
         // démon orphelin (pid perdu) : on le cherche par son script. « [z] » : le motif ne correspond pas
         // à la ligne de commande du shell qui lance pkill (sinon pkill tuerait aussi ce shell)
         exec(system::getCmdSudo() . 'pkill -f ' . escapeshellarg('zendure/resources/[z]endured\.php') . ' 2>/dev/null');
+        // attendre qu'ils soient vraiment arrêtés avant d'en lancer un nouveau
+        for ($i = 0; $i < 20 && trim((string) shell_exec('pgrep -f ' . escapeshellarg('zendure/resources/[z]endured') . ' 2>/dev/null')) != ''; $i++) {
+            usleep(250000);
+        }
+        exec(system::getCmdSudo() . 'pkill -9 -f ' . escapeshellarg('zendure/resources/[z]endured\.php') . ' 2>/dev/null'); // encore là après 5 s
         @unlink($pidFile);
     }
 
