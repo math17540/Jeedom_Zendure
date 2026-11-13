@@ -23,7 +23,7 @@ les projets ci-dessous. Les retours sont bienvenus (issues).
 ## Installation
 
 Jeedom 4.4 ou plus. *Plugins → Gestion des plugins → +*, source **GitHub** :
-utilisateur `math17540`, dépôt `jeedom-zendure`, branche `main`, ID logique `zendure`.
+utilisateur `math17540`, dépôt `Jeedom_Zendure`, branche `main`, ID logique `zendure`.
 Ou source **Fichier** avec le zip d'une [release](../../releases).
 
 La documentation complète est dans [docs/fr_FR/index.md](docs/fr_FR/index.md) ; elle s'ouvre aussi

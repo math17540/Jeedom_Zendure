@@ -65,7 +65,7 @@ conseillée, car Jeedom proposera ensuite les mises à jour tout seul.
    * **Type de source** : `Github`
    * **ID logique du plugin** : `zendure`
    * **Utilisateur ou organisation du dépôt** : `math17540`
-   * **Nom du dépôt** : `jeedom-zendure`
+   * **Nom du dépôt** : `Jeedom_Zendure`
    * **Branche** : `main`
 4. Cliquez sur **Sauvegarder**, puis patientez : Jeedom télécharge le plugin (1 à 2 minutes).
 
